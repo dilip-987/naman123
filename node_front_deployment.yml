@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-frontend-deployment
+  labels:
+    environment: Dev-UI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      environment: Dev-UI
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate  
+       
+  template:
+    metadata:
+      labels:
+        environment: Dev-UI
+    spec:
+      imagePullSecrets:
+      - name: my-registry-key1
+      containers:
+      - name: nodejs-frontend-container
+        image: 250492001060.dkr.ecr.us-west-2.amazonaws.com/iaf:v4
+        ports:
+        - containerPort: 3000
